@@ -26,9 +26,14 @@ describe("A task memory repository use case", () => {
     })
 
     test("Can return the complete tasks", () => {
-        const incompleteTasks = repository.getCompleteTasks();
+        const taskComplete: Task = {
+            content: 'A complete task',
+            status: true
+        }
+        repository.create(taskComplete);
+        const completeTasks = repository.getCompleteTasks();
 
-        expect(incompleteTasks).toBeDefined();
-        expect(incompleteTasks[0].status).toBeTruthy();
+        expect(completeTasks).toBeDefined();
+        expect(completeTasks[0].status).toBeTruthy();
     })
 })
