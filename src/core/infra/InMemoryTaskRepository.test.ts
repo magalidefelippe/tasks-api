@@ -4,8 +4,8 @@ import { InMemoryTaskRepository } from "./InMemoryTaskRepository";
 
 describe("A task memory repository use case", () => {
     const repository = new InMemoryTaskRepository();
-    
-    test("Can save a task", () => {
+
+    test("Can save a task if it not exist", () => {
         const content = "Lavar los platos";
 
         const task: Task = {
@@ -23,5 +23,12 @@ describe("A task memory repository use case", () => {
 
         expect(incompleteTasks).toBeDefined();
         expect(incompleteTasks[0].status).toBeFalsy();
+    })
+
+    test("Can return the complete tasks", () => {
+        const incompleteTasks = repository.getCompleteTasks();
+
+        expect(incompleteTasks).toBeDefined();
+        expect(incompleteTasks[0].status).toBeTruthy();
     })
 })
