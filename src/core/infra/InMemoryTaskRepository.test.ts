@@ -4,8 +4,13 @@ import { InMemoryTaskRepository } from "./InMemoryTaskRepository";
 
 describe("A task memory repository use case", () => {
     const repository = new InMemoryTaskRepository();
+    repository.find = jest.fn();
 
-    test("Can save a task if it not exist", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    })
+
+    test("Can save a task ", () => {
         const content = "Lavar los platos";
 
         const task: Task = {
@@ -16,6 +21,14 @@ describe("A task memory repository use case", () => {
         const incompleteTasks = repository.getIncompleteTasks();
 
         expect(incompleteTasks).toEqual([task]);
+    })
+
+    test("Can determine if a task exist or not", () => {
+        const content = "lavar los platos";
+        repository.find = jest.fn().mockReturnValue(false);
+        const exist = repository.find(content);
+
+        expect(exist).toBeFalsy();
     })
 
     test("Can return the incomplete tasks", () => {

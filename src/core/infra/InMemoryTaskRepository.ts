@@ -9,18 +9,17 @@ interface InMemoryTask {
 export class InMemoryTaskRepository implements TaskRepository {
     private tasks: Map<string, InMemoryTask> = new Map<string, InMemoryTask>();
 
-    public create(task: Task): void {
-        const existTask = this.tasks.get(task.content);
+    public find(content: string): boolean {
+        const existTask = this.tasks.get(content);
         if (existTask) {
-            throw new Error('The task allready exist');
+            return true;
         } else {
-            const newTask: InMemoryTask = {
-                content: task.content,
-                status: task.status
-            };
-
-            this.tasks.set(task.content, newTask);
+            return false;
         }
+    };
+
+    public create(task: Task): void {
+        this.tasks.set(task.content, task);
     };
 
     public getIncompleteTasks() {
